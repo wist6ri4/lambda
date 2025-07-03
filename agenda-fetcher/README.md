@@ -39,17 +39,27 @@ npx tsc --init
 
 # ディレクトリ構成
 ```plaintext
-notion-lambda-ts/
+agenda-fetcher/
+├── aws                 ← AWS関連の設定
+├── dist/               ← コンパイル後の出力先
+│   └── index.js        ← コンパイル後のLambda本体
+├── lambda-package/     ← Lambda用のパッケージ
+│   ├── node_modules/   ← 依存関係のモジュール
 ├── src/
 │   └── index.ts        ← Lambda本体
 ├── .env                ← 環境変数（ローカル用）
-├── tsconfig.json
+├── .gitignore          ← Git管理から除外するファイル
+├── deploy.sh           ← デプロイスクリプト
+├── function.zip        ← デプロイ用のZIPファイル
 ├── package.json
+├── package-lock.json
+├── README.md           ← このドキュメント
+├── tsconfig.json       ← TypeScriptの設定ファイル
 ```
 
 # .envファイルの設定
 ```yaml
-NOTION_TOKEN = "your_notion_token_here" # Notion API token
-NOTION_DATABASE_MINUTES_ID = "your_notion_database_id_here" # Notion database ID for minutes
-NOTION_DATABASE_AGENDA_ID = "your_notion_database_agenda_id_here" # Notion database ID for agenda
+NOTION_TOKEN="your_notion_token_here" # Notion API token
+NOTION_DATABASE_MINUTES_ID="your_notion_database_id_here" # Notion database ID for minutes
+NOTION_DATABASE_AGENDA_ID="your_notion_database_agenda_id_here" # Notion database ID for agenda
 ```
