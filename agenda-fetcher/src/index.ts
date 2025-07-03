@@ -33,45 +33,19 @@ export const handler = async (
         const response = await notion.databases.query({
             database_id: AGENDA_DATABASE_ID,
             filter: {
-                or: [
+                and: [
                     {
-                        and: [
-                            {
-                                property: "プロジェクト",
-                                relation: {
-                                    contains: projectId
-                                }
-                            },
+                        property: "プロジェクト",
+                        relation: {
+                            contains: projectId
+                        }
+                    },
+                    {
+                        or: [
                             {
                                 property: "ステータス",
                                 status: {
                                     equals: "未着手"
-                                }
-                            }
-                        ]
-                    },
-                    {
-                        and: [
-                            {
-                                property: "プロジェクト",
-                                relation: {
-                                    contains: projectId
-                                }
-                            },
-                            {
-                                property: "ステータス",
-                                status: {
-                                    equals: "進行中"
-                                }
-                            }
-                        ]
-                    },
-                                        {
-                        and: [
-                            {
-                                property: "プロジェクト",
-                                relation: {
-                                    contains: projectId
                                 }
                             },
                             {
@@ -79,11 +53,17 @@ export const handler = async (
                                 status: {
                                     equals: "保留"
                                 }
-                            }
-                        ]
+                            },
+                                                        {
+                                property: "ステータス",
+                                status: {
+                                    equals: "進行中"
+                                }
+                            },
+                        ],
                     },
-                ]
-            }
+                ],
+            },
         });
 
         const agendasToUpdate = response.results;
