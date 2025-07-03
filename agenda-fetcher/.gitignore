@@ -1,4 +1,5 @@
 lambda-package
 node_modules
 function.zip
+dist
 .env
