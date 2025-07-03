@@ -14,6 +14,7 @@ export const handler = async (
 ): Promise<APIGatewayProxyResult> => {
     try {
         const body = JSON.parse(event.body || "{}");
+        console.log(body);
         const minutesPageId = body?.data?.id;
 
         if (!minutesPageId) {
@@ -43,7 +44,7 @@ export const handler = async (
                             },
                             {
                                 property: "ステータス",
-                                select: {
+                                status: {
                                     equals: "未着手"
                                 }
                             }
@@ -59,7 +60,7 @@ export const handler = async (
                             },
                             {
                                 property: "ステータス",
-                                select: {
+                                status: {
                                     equals: "進行中"
                                 }
                             }
@@ -75,7 +76,7 @@ export const handler = async (
                             },
                             {
                                 property: "ステータス",
-                                select: {
+                                status: {
                                     equals: "保留"
                                 }
                             }
