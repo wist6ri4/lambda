@@ -4,14 +4,12 @@ import { config } from "dotenv";
 
 config();
 
-const notion = new Client({ auth: process.env.NOTION_TOKEN });
+const notion = new Client({ auth: process.env.NOTION_TOKEN, notionVersion: "2022-06-28" });
 
 const MINUTES_DATABASE_ID: string = process.env.NOTION_DATABASE_MINUTES_ID ?? "";
 const AGENDA_DATABASE_ID: string = process.env.NOTION_DATABASE_AGENDA_ID ?? "";
 
-export const handler = async (
-    event: APIGatewayProxyEvent
-): Promise<APIGatewayProxyResult> => {
+export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
     try {
         const body = JSON.parse(event.body || "{}");
         console.log(body);
@@ -37,28 +35,28 @@ export const handler = async (
                     {
                         property: "プロジェクト",
                         relation: {
-                            contains: projectId
-                        }
+                            contains: projectId,
+                        },
                     },
                     {
                         or: [
                             {
                                 property: "ステータス",
                                 status: {
-                                    equals: "未着手"
-                                }
+                                    equals: "未着手",
+                                },
                             },
                             {
                                 property: "ステータス",
                                 status: {
-                                    equals: "保留"
-                                }
+                                    equals: "保留",
+                                },
                             },
-                                                        {
+                            {
                                 property: "ステータス",
                                 status: {
-                                    equals: "進行中"
-                                }
+                                    equals: "進行中",
+                                },
                             },
                         ],
                     },
@@ -76,11 +74,8 @@ export const handler = async (
             await notion.pages.update({
                 page_id: agenda.id,
                 properties: {
-                    "議事録": {
-                        relation: [
-                            ...currentRelations,
-                            { id: minutesPageId }
-                        ],
+                    議事録: {
+                        relation: [...currentRelations, { id: minutesPageId }],
                     },
                 },
             });
@@ -90,20 +85,17 @@ export const handler = async (
             statusCode: 200,
             body: JSON.stringify({
                 message: "アジェンダの更新が完了しました",
-                updatedAgendasCount: agendasToUpdate.length
+                updatedAgendasCount: agendasToUpdate.length,
             }),
-        }
+        };
     } catch (err: any) {
         console.error(err);
         return {
             statusCode: 500,
             body: JSON.stringify({
                 message: "アジェンダの更新中にエラーが発生しました",
-                error: err.message || "不明なエラー"
+                error: err.message || "不明なエラー",
             }),
-        }
+        };
     }
-}
-
-
-
+};
