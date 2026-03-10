@@ -43,12 +43,6 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
                             {
                                 property: "ステータス",
                                 status: {
-                                    equals: "未着手",
-                                },
-                            },
-                            {
-                                property: "ステータス",
-                                status: {
                                     equals: "保留",
                                 },
                             },
